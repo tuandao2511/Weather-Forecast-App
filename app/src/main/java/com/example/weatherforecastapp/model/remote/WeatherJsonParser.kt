@@ -1,6 +1,6 @@
-package com.example.sunshineapp_mvvm_koltin.model.remote
+package com.example.weatherforecastapp.model.remote
 
-import com.example.sunshineapp_mvvm_koltin.utilities.SunshineDateUtils
+import com.example.weatherforecastapp.utilities.SunshineDateUtils
 import com.example.weatherforecastapp.model.database.WeatherEntry
 import org.json.JSONException
 import org.json.JSONObject

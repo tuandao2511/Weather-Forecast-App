@@ -1,4 +1,4 @@
-package com.example.sunshineapp_mvvm_koltin.utilities
+package com.example.weatherforecastapp.utilities
 
 import android.content.Context
 import android.text.format.DateUtils

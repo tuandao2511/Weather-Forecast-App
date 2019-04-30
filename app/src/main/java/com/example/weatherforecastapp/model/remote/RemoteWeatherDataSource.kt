@@ -1,5 +1,6 @@
-package com.example.sunshineapp_mvvm_koltin.model.remote
+package com.example.weatherforecastapp.model.remote
 
+import com.example.weatherforecastapp.model.remote.RemoteWeatherService
 import io.reactivex.Observable
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory

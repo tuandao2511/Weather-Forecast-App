@@ -1,14 +1,16 @@
-package com.example.weatherforecastapp.ui.detail
+package com.example.weatherforecastapp.ui.list
 
 import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.sunshineapp_mvvm_koltin.utilities.DiffUtilCallback
-import com.example.sunshineapp_mvvm_koltin.utilities.SunshineDateUtils
-import com.example.sunshineapp_mvvm_koltin.utilities.SunshineWeatherUtils
+import com.example.weatherforecastapp.utilities.DiffUtilCallback
+import com.example.weatherforecastapp.utilities.SunshineDateUtils
+import com.example.weatherforecastapp.utilities.SunshineWeatherUtils
 import com.example.weatherforecastapp.R
 import com.example.weatherforecastapp.model.database.WeatherEntry
 import kotlinx.android.synthetic.main.forecast_list_item.view.*

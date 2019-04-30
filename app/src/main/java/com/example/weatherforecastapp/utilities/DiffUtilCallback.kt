@@ -1,4 +1,4 @@
-package com.example.sunshineapp_mvvm_koltin.utilities
+package com.example.weatherforecastapp.utilities
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.weatherforecastapp.model.database.WeatherEntry

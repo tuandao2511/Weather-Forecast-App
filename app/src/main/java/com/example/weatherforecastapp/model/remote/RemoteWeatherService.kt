@@ -1,4 +1,4 @@
-package com.example.sunshineapp_mvvm_koltin.model.remote
+package com.example.weatherforecastapp.model.remote
 
 import android.content.Context
 import androidx.lifecycle.LiveData

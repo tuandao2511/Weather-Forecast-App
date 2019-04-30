@@ -2,13 +2,10 @@ package com.example.weatherforecastapp.model
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import com.example.sunshineapp_mvvm_koltin.model.remote.RemoteWeatherDataSource
-import com.example.sunshineapp_mvvm_koltin.model.remote.WeatherJsonParser
+import com.example.weatherforecastapp.model.remote.WeatherJsonParser
 import com.example.weatherforecastapp.model.database.WeatherDao
 import com.example.weatherforecastapp.model.database.WeatherEntry
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.example.weatherforecastapp.model.remote.RemoteWeatherDataSource
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
