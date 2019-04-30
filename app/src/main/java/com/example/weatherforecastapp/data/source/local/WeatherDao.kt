@@ -1,4 +1,4 @@
-package com.example.weatherforecastapp.model.database
+package com.example.weatherforecastapp.data.source.local
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
@@ -11,10 +11,10 @@ import java.util.*
 public interface WeatherDao {
 
     @Query("SELECT * FROM weather ")
-    fun getWeatherForecasts() : LiveData<List<WeatherEntry>>
+    fun getWeatherForecasts() : List<WeatherEntry>
 
     @Query("SELECT * FROM weather WHERE date = :date")
-    fun getWeatherByDate(date : Date) : LiveData<WeatherEntry>
+    fun getWeatherByDate(date : Date) : WeatherEntry
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun bulkInsert(weatherEntries: List<WeatherEntry>)

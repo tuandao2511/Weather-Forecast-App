@@ -1,4 +1,4 @@
-package com.example.weatherforecastapp.model.database
+package com.example.weatherforecastapp.data.source.local
 
 import android.content.Context
 import androidx.room.Database
@@ -15,7 +15,7 @@ abstract class SunshineDatabase : RoomDatabase() {
     companion object {
         private var INSTANCE : SunshineDatabase? = null
 
-        fun getInstace(context: Context) : SunshineDatabase? {
+        fun getInstace(context: Context) : SunshineDatabase {
             if (INSTANCE == null) {
                 synchronized(SunshineDatabase::class.java){
                     INSTANCE = Room.databaseBuilder(context.applicationContext,
@@ -24,7 +24,7 @@ abstract class SunshineDatabase : RoomDatabase() {
                 }
             }
 
-            return INSTANCE
+            return INSTANCE!!
         }
 
         fun destroyInstance() {

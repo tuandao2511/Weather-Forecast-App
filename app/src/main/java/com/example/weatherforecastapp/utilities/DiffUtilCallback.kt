@@ -1,7 +1,7 @@
 package com.example.sunshineapp_mvvm_koltin.utilities
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.weatherforecastapp.model.database.WeatherEntry
+import com.example.weatherforecastapp.data.source.local.WeatherEntry
 
 class DiffUtilCallback(val oldList: List<WeatherEntry>, val newList: List<WeatherEntry>): DiffUtil.Callback() {
 

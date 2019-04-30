@@ -1,4 +1,4 @@
-package com.example.weatherforecastapp.model.database
+package com.example.weatherforecastapp.data.source.local
 
 import androidx.room.Entity
 import androidx.room.Index

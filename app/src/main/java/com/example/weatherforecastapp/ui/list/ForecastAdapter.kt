@@ -1,4 +1,4 @@
-package com.example.weatherforecastapp.ui.detail
+package com.example.weatherforecastapp.ui.list
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import com.example.sunshineapp_mvvm_koltin.utilities.DiffUtilCallback
 import com.example.sunshineapp_mvvm_koltin.utilities.SunshineDateUtils
 import com.example.sunshineapp_mvvm_koltin.utilities.SunshineWeatherUtils
 import com.example.weatherforecastapp.R
-import com.example.weatherforecastapp.model.database.WeatherEntry
+import com.example.weatherforecastapp.data.source.local.WeatherEntry
 import kotlinx.android.synthetic.main.forecast_list_item.view.*
 import java.util.*
 
@@ -37,6 +37,7 @@ class ForecastAdapter(val context: Context, var items: List<WeatherEntry>, val l
         return VIEW_TYPE_FUTURE_DAY
     }
 
+    @Throws(IllegalArgumentException::class)
     private fun getLayoutIdByType(viewType: Int): Int {
         when (viewType) {
 
