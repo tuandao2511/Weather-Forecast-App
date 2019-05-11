@@ -1,20 +1,30 @@
 package com.example.weatherforecastapp.ui.detail
 
+import android.app.Application
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.example.sunshineapp_mvvm_koltin.utilities.SunshineDateUtils
 import com.example.sunshineapp_mvvm_koltin.utilities.SunshineWeatherUtils
 import com.example.weatherforecastapp.R
+import com.example.weatherforecastapp.base.MainApplication
 import com.example.weatherforecastapp.data.source.local.WeatherEntry
 import com.example.weatherforecastapp.databinding.ActivityDetailBinding
-import com.example.weatherforecastapp.utilities.Injection
+import com.example.weatherforecastapp.di.component.DaggerDetailActivityComponent
+import com.example.weatherforecastapp.di.component.DaggerMainActivityComponent
+import com.example.weatherforecastapp.di.component.DetailActivityComponent
+import com.example.weatherforecastapp.di.component.MainActivityComponent
+import com.example.weatherforecastapp.ui.list.MainModule
 import java.util.*
+import javax.inject.Inject
 
 class DetailActivity : AppCompatActivity(), DetailContract.View{
 
+    @Inject
     override lateinit var presenter: DetailContract.Presenter
+
     private lateinit var mDetailBinding: ActivityDetailBinding
+    private lateinit var mDetailActivityComponent: DetailActivityComponent
 
     companion object {
         val WEATHER_ID_EXTRA = "WEATHER_ID_EXTRA"
@@ -28,13 +38,18 @@ class DetailActivity : AppCompatActivity(), DetailContract.View{
         val timestamp = intent.getLongExtra(WEATHER_ID_EXTRA,-1)
         val date = Date(timestamp)
 
-        initPresenter(date)
+        mDetailActivityComponent = DaggerDetailActivityComponent.builder()
+            .applicationComponent((application as MainApplication).getComponent())
+            .detailModule(DetailModule(this, date))
+            .build()
+        mDetailActivityComponent.inject(this)
+        presenter.start()
     }
 
     private fun initPresenter(date: Date) {
-        presenter = DetailPresenter(Injection.provideSunshineRepository(applicationContext),
-            this, date)
-        presenter.start()
+//        presenter = DetailPresenter(Injection.provideSunshineRepository(applicationContext),
+//            this, date)
+//        presenter.start()
     }
 
     override fun showTask(weatherEntry: WeatherEntry) {

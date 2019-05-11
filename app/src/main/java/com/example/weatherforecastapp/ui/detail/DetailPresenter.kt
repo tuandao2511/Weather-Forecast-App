@@ -1,11 +1,12 @@
 package com.example.weatherforecastapp.ui.detail
 
+import com.example.weatherforecastapp.data.source.AppRepository
 import com.example.weatherforecastapp.data.source.SunshineDataSource
-import com.example.weatherforecastapp.data.source.SunshineRepository
 import com.example.weatherforecastapp.data.source.local.WeatherEntry
 import java.util.*
+import javax.inject.Inject
 
-class DetailPresenter(private val repository: SunshineRepository,
+class DetailPresenter @Inject constructor(private val repository: AppRepository,
                       private val detailView: DetailContract.View,
                       private val date: Date
 ) : DetailContract.Presenter{

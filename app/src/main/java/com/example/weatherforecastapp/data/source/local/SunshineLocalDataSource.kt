@@ -4,10 +4,13 @@ import android.util.Log
 import com.example.weatherforecastapp.data.source.SunshineDataSource
 import com.example.weatherforecastapp.utilities.AppExecutors
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class SunshineLocalDataSource private constructor(
-    private val weatherDao: WeatherDao,
-    private val executor: AppExecutors
+@Singleton
+class SunshineLocalDataSource @Inject constructor(
+    val appDatabase: SunshineDatabase,
+    val executor: AppExecutors
 ) : SunshineDataSource {
 
 
@@ -15,7 +18,7 @@ class SunshineLocalDataSource private constructor(
     override fun getForecasts(callback: SunshineDataSource.LoadForecastsCallback) {
 //        executor.diskIO.execute { callback.onForecastsLoaded(weatherDao.getWeatherForecasts()) }
         executor.diskIO.execute {
-            val forecasts = weatherDao.getWeatherForecasts()
+            val forecasts = appDatabase.weatherDao().getWeatherForecasts()
             Log.d(".LocalDataSource ", " forecasts: $forecasts")
             executor.mainThread.execute {
                 callback.onForecastsLoaded(forecasts)
@@ -31,20 +34,20 @@ class SunshineLocalDataSource private constructor(
     override fun deleteAllForecasts() {
         executor.diskIO.execute {
             Log.d(".Callback"," deleteAllForecasts")
-            weatherDao.deleteAllData()
+            appDatabase.weatherDao().deleteAllData()
         }
     }
 
     override fun insertForecasts(forecasts: List<WeatherEntry>) {
         executor.diskIO.execute {
             Log.d(".Callback"," insertForecasts")
-            weatherDao.bulkInsert(forecasts)
+            appDatabase.weatherDao().bulkInsert(forecasts)
         }
     }
 
     override fun getForecast(date: Date, callback: SunshineDataSource.getForecastCallback) {
         executor.diskIO.execute {
-            val forecast = weatherDao.getWeatherByDate(date)
+            val forecast = appDatabase.weatherDao().getWeatherByDate(date)
             executor.mainThread.execute {
                 if (forecast != null) {
                     callback.onForecastLoaded(forecast)
@@ -56,19 +59,19 @@ class SunshineLocalDataSource private constructor(
     }
 
 
-    companion object {
-        private var INSTANCE: SunshineLocalDataSource? = null
-
-        @JvmStatic fun getInstance(
-            weatherDao: WeatherDao,
-            appExecutors: AppExecutors
-        ): SunshineLocalDataSource {
-            if (INSTANCE == null) {
-                synchronized(SunshineLocalDataSource::class.java) {
-                    INSTANCE = SunshineLocalDataSource(weatherDao,appExecutors)
-                }
-            }
-            return INSTANCE!!
-        }
-    }
+//    companion object {
+//        private var INSTANCE: SunshineLocalDataSource? = null
+//
+//        @JvmStatic fun getInstance(
+//            weatherDao: WeatherDao,
+//            appExecutors: AppExecutors
+//        ): SunshineLocalDataSource {
+//            if (INSTANCE == null) {
+//                synchronized(SunshineLocalDataSource::class.java) {
+//                    INSTANCE = SunshineLocalDataSource(weatherDao,appExecutors)
+//                }
+//            }
+//            return INSTANCE!!
+//        }
+//    }
 }

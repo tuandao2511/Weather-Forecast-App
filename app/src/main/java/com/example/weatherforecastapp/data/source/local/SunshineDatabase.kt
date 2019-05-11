@@ -6,30 +6,30 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [WeatherEntry::class],version = 1)
+@Database(entities = [WeatherEntry::class],version = 1, exportSchema = false)
 @TypeConverters(DateConverter::class)
 abstract class SunshineDatabase : RoomDatabase() {
 
     abstract fun weatherDao() : WeatherDao
 
-    companion object {
-        private var INSTANCE : SunshineDatabase? = null
-
-        fun getInstace(context: Context) : SunshineDatabase {
-            if (INSTANCE == null) {
-                synchronized(SunshineDatabase::class.java){
-                    INSTANCE = Room.databaseBuilder(context.applicationContext,
-                        SunshineDatabase::class.java,"weather.db")
-                        .build()
-                }
-            }
-
-            return INSTANCE!!
-        }
-
-        fun destroyInstance() {
-            INSTANCE = null
-        }
-    }
+//    companion object {
+//        private var INSTANCE : SunshineDatabase? = null
+//
+//        fun getInstace(context: Context) : SunshineDatabase {
+//            if (INSTANCE == null) {
+//                synchronized(SunshineDatabase::class.java){
+//                    INSTANCE = Room.databaseBuilder(context.applicationContext,
+//                        SunshineDatabase::class.java,"weather.db")
+//                        .build()
+//                }
+//            }
+//
+//            return INSTANCE!!
+//        }
+//
+//        fun destroyInstance() {
+//            INSTANCE = null
+//        }
+//    }
 
 }

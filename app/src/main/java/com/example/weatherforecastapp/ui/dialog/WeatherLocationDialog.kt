@@ -4,32 +4,52 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.example.weatherforecastapp.R
+import com.example.weatherforecastapp.base.MainApplication
+import com.example.weatherforecastapp.di.component.DaggerMainActivityComponent
+import com.example.weatherforecastapp.di.component.MainActivityComponent
+import com.example.weatherforecastapp.ui.list.MainActivity
+import com.example.weatherforecastapp.ui.list.MainModule
+import javax.inject.Inject
 
 @SuppressLint("ValidFragment")
-class WeatherLocationDialog(context: Context): DialogFragment(),
+class WeatherLocationDialog(val context: MainActivity): DialogFragment(),
     WeatherLocationDialogContract.View {
 
+    @Inject
     override lateinit var presenter: WeatherLocationDialogContract.Presenter
+
+    private lateinit var mMainActivityComponent: MainActivityComponent
+
 
     private lateinit var mEditText: EditText
     private lateinit var mView: View
 
-    private lateinit var callback: OnLocationInputListener
+    private  var callback: OnLocationInputListener? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         initView()
 
+        mMainActivityComponent = DaggerMainActivityComponent.builder()
+            .applicationComponent((context.application as MainApplication).getComponent())
+            .mainModule(MainModule(context))
+            .build()
+        mMainActivityComponent.inject(this)
+        Log.d("WeatherLocationDialog","presenter " +presenter)
+        Log.d("WeatherLocationDialog", "Callback $callback")
+
         return showDialog()
     }
 
     override fun showNewForecasts(location: String) {
-        callback.onLocationInput(location)
+        Log.d("WeatherLocationDialog", "Callback:" +callback)
+        callback?.onLocationInput(location)
     }
 
     fun showDialog(): Dialog {
@@ -38,7 +58,12 @@ class WeatherLocationDialog(context: Context): DialogFragment(),
         builder.setView(mView)
             .setPositiveButton(R.string.postionButton) { dialog, which ->
                 val locationStr = mEditText.text?.toString()
-                presenter.getNewLocationInput(locationStr)
+                Log.d("WeatherLocationDialog", "Callback $callback")
+//                presenter.getNewLocationInput(locationStr) //cai nay co the sai nhe vi khi fragment mat di, callback =null
+                if (locationStr != null) {
+                    callback?.onLocationInput(locationStr)
+                }
+
             }
             .setNegativeButton(R.string.nagativeButton) { dialog, which ->
                 getDialog().cancel()
@@ -56,7 +81,8 @@ class WeatherLocationDialog(context: Context): DialogFragment(),
     }
 
     fun setLocationInputListener(onLocationInputListener :OnLocationInputListener) {
-        this.callback = onLocationInputListener
+        Log.d("WeatherLocationDialog", "onLocationInputListener $onLocationInputListener")
+        callback = onLocationInputListener
     }
 
 

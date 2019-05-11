@@ -3,7 +3,7 @@ package com.example.weatherforecastapp.utilities
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
-class DiskIOThreadExecutor : Executor {
+class DiskIOThreadExecutor: Executor {
 
     private val diskIO = Executors.newSingleThreadExecutor()
 

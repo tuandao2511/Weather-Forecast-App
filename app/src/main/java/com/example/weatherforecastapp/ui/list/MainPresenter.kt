@@ -1,14 +1,17 @@
 package com.example.weatherforecastapp.ui.list
 
 import android.util.Log
+import com.example.weatherforecastapp.data.source.AppRepository
 import com.example.weatherforecastapp.data.source.SunshineDataSource
 import com.example.weatherforecastapp.data.source.SunshineRepository
 import com.example.weatherforecastapp.data.source.local.WeatherEntry
+import com.example.weatherforecastapp.di.MainActivityScope
+import javax.inject.Inject
 
 const val LOCATION_QUERY = "Mountain View, CA"
 
-class MainPresenter(val repository: SunshineRepository,
-                    val mainView: MainContract.View)
+class MainPresenter @Inject constructor(val repository: AppRepository,
+                    @MainActivityScope val mainView: MainContract.View)
     : MainContract.Presenter{
 
 

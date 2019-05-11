@@ -13,32 +13,48 @@ import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecastapp.R
+import com.example.weatherforecastapp.base.MainApplication
 import com.example.weatherforecastapp.data.source.local.WeatherEntry
+import com.example.weatherforecastapp.di.component.DaggerMainActivityComponent
+import com.example.weatherforecastapp.di.component.MainActivityComponent
 import com.example.weatherforecastapp.ui.detail.DetailActivity
 import com.example.weatherforecastapp.ui.dialog.WeatherDialogPresenter
 import com.example.weatherforecastapp.ui.dialog.WeatherLocationDialog
-import com.example.weatherforecastapp.utilities.Injection
+import dagger.android.DaggerApplication_MembersInjector
 import java.util.*
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), MainContract.View, WeatherLocationDialog.OnLocationInputListener{
 
     private val TAG = MainActivity::class.java.simpleName
 
-
+    @Inject
     override lateinit var presenter: MainContract.Presenter
+
+    @Inject
+    lateinit var mWeatherLocationDialog: WeatherLocationDialog
+
 
     private lateinit var mAdapter: ForecastAdapter
 
     private lateinit var recyclerViewForecast: RecyclerView
     private lateinit var pbLoadingIndicator: ProgressBar
+    private lateinit var mMainActivityComponent: MainActivityComponent
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        initPresenter()
         initView()
+
+        mMainActivityComponent = DaggerMainActivityComponent.builder()
+            .applicationComponent((application as MainApplication).getComponent())
+            .mainModule(MainModule(this))
+            .build()
+
+        mMainActivityComponent.inject(this)
+        mWeatherLocationDialog.setLocationInputListener(this)
+        presenter.start()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -50,10 +66,12 @@ class MainActivity : AppCompatActivity(), MainContract.View, WeatherLocationDial
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId){
             R.id.location_input -> {
-                val weatherLocationDialog = WeatherLocationDialog(this)
-                weatherLocationDialog.setLocationInputListener(this)
-                val dialogPresenter = WeatherDialogPresenter(weatherLocationDialog)
-                weatherLocationDialog.show(supportFragmentManager,TAG)
+
+//                val weatherLocationDialog = WeatherLocationDialog(this)
+//                weatherLocationDialog.setLocationInputListener(this)
+//                val dialogPresenter = WeatherDialogPresenter(weatherLocationDialog)
+//                weatherLocationDialog.show(supportFragmentManager,TAG)
+                mWeatherLocationDialog.show(supportFragmentManager,TAG)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -63,9 +81,11 @@ class MainActivity : AppCompatActivity(), MainContract.View, WeatherLocationDial
 
 
     private fun initPresenter() {
-        presenter = MainPresenter(Injection.provideSunshineRepository(applicationContext),
-            this)
-        presenter.start()
+//        presenter = MainPresenter(Injection.provideSunshineRepository(applicationContext),
+//            this)
+//        presenter.start()
+
+
     }
 
     @SuppressLint("WrongConstant")

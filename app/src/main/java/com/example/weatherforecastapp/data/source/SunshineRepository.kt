@@ -4,29 +4,35 @@ import android.util.Log
 import com.example.sunshineapp_mvvm_koltin.model.remote.RemoteWeatherDataSource
 import com.example.weatherforecastapp.data.source.local.SunshineLocalDataSource
 import com.example.weatherforecastapp.data.source.local.WeatherEntry
+import com.example.weatherforecastapp.di.Local
+import com.example.weatherforecastapp.di.Remote
+import com.example.weatherforecastapp.di.Repository
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class SunshineRepository private constructor(val remoteWeatherDataSource: RemoteWeatherDataSource,
-                         val localDataSource: SunshineLocalDataSource
-) : SunshineDataSource {
+@Singleton
+class SunshineRepository @Inject constructor(@Remote val remoteWeatherDataSource: SunshineDataSource,
+                                             @Local val localDataSource: SunshineDataSource
+) : AppRepository {
 
-    companion object {
-        private var INSTANCE: SunshineRepository? = null
-
-        @JvmStatic fun getInstance(remoteWeatherDataSource: RemoteWeatherDataSource,
-                                   localDataSource: SunshineLocalDataSource) : SunshineRepository {
-            if (INSTANCE == null) {
-                synchronized(SunshineRepository::class.java) {
-                    INSTANCE =
-                        SunshineRepository(
-                            remoteWeatherDataSource,
-                            localDataSource
-                        )
-                }
-            }
-            return INSTANCE!!
-        }
-    }
+//    companion object {
+//        private var INSTANCE: SunshineRepository? = null
+//
+//        @JvmStatic fun getInstance(remoteWeatherDataSource: RemoteWeatherDataSource,
+//                                   localDataSource: SunshineLocalDataSource) : SunshineRepository {
+//            if (INSTANCE == null) {
+//                synchronized(SunshineRepository::class.java) {
+//                    INSTANCE =
+//                        SunshineRepository(
+//                            remoteWeatherDataSource,
+//                            localDataSource
+//                        )
+//                }
+//            }
+//            return INSTANCE!!
+//        }
+//    }
 
 //    fun getWeatherForecasts() : LiveData<List<WeatherEntry>>?{
 //        return weatherDao?.getWeatherForecasts()

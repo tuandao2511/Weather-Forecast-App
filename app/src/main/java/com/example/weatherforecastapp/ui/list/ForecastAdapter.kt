@@ -13,17 +13,19 @@ import com.example.weatherforecastapp.R
 import com.example.weatherforecastapp.data.source.local.WeatherEntry
 import kotlinx.android.synthetic.main.forecast_list_item.view.*
 import java.util.*
+import javax.inject.Inject
 
-class ForecastAdapter(val context: Context, var items: List<WeatherEntry>, val listener: (Date)->Unit ): RecyclerView.Adapter<ForecastAdapter.ForecastAdapterViewHolder>() {
+class ForecastAdapter @Inject constructor(val context: MainActivity, var items: List<WeatherEntry>, val listener: (Date)->Unit ): RecyclerView.Adapter<ForecastAdapter.ForecastAdapterViewHolder>() {
 
     private val VIEW_TYPE_TODAY = 0
     private val VIEW_TYPE_FUTURE_DAY = 1
 
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForecastAdapterViewHolder {
 
         val layoutId = getLayoutIdByType(viewType)
-        val view = LayoutInflater.from(context).inflate(layoutId, parent,false )
+        val view = LayoutInflater.from(parent.context).inflate(layoutId, parent,false )
         return ForecastAdapterViewHolder(view)
     }
 
